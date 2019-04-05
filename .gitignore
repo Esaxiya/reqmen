@@ -1,0 +1,5 @@
+*.xml
+*.log
+migrations/*
+**/*.pyc
+.idea/

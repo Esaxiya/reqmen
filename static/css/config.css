@@ -1,0 +1,38 @@
+thead {
+    text-align: center;
+}
+
+.env {
+    text-align: center;
+}
+
+.edit-me {
+    font: 400 11px Helvetica;
+    border: 1px solid #2db7f5;
+    padding: 3px 3px;
+    text-align: center;
+    border-radius: 5px;
+    width: 40px;
+    cursor: pointer;
+    display: inline;
+}
+
+.edit-me a {
+    color: #2db7f5;
+}
+
+.remove-me a {
+    color: #ed4014;
+}
+
+.remove-me {
+    font: 400 11px Helvetica;
+    border: 1px solid #2db7f5;
+
+    padding: 3px 3px;
+    text-align: center;
+    border-radius: 5px;
+    width: 40px;
+    display: inline;
+    cursor: pointer;
+}

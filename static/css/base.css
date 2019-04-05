@@ -1,0 +1,16 @@
+.content{
+    background:#f8f8f9;
+    width: 730px;
+    overflow: hidden;
+    margin: 0 auto;
+    padding: 10px;
+    border-radius: 10px;
+    border-color: #dcdee2;
+}
+body{
+background-color: #FFFFFF;
+}
+
+.page-title{
+  text-align: center;
+}

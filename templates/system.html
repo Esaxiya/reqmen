@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/system.css') }}">
+{% endblock %}
+
+
+{% block main %}
+    <div class="panel panel-primary" style="margin-bottom: 5px;">
+        <div class="panel-heading">
+            <h3 class="panel-title">项目管理</h3></div>
+        <div class="panel-body">
+            <button type="button" class="btn btn-primary" onclick="addSystem()">新增项目</button>
+        </div>
+    </div>
+    <div class="center-block table-responsive ">
+        <table class="table table-responsive table-condensed table-bordered text-nowrap container-fluid">
+            <thead>
+            <tr class="system">
+                <!--
+                <td class="col-md-1">ID</td>
+                -->
+                <td class="col-md-1">项目名称</td>
+                <td class="col-md-1">创建时间</td>
+                <td class="col-md-1">创建人</td>
+                <td class="">项目描述</td>
+                <td class="col-md-1">操作</td>
+            </tr>
+            </thead>
+            <tbody>
+            {% for system in systems %}
+                <tr>
+                    <!--
+                    <td class="system-id">{{ system.id }}</td>
+                    -->
+                    <td class="system-name"><a href="{{ url_for('api',sys_id=system.id) }}">{{ system.name }}</a></td>
+                    <td class="system-date">{{ system.create_time }}</td>
+                    <td class="system-user">{{ system.user.username }}</td>
+                    <td class="">{{ system.description }}</td>
+                    <td class="system-operate">
+                        <div class="edit-me">
+                            <a href="">编辑</a>
+                        </div>
+                        <div class="remove-me">
+                            <a href="{{ url_for('system_delete',sys_id=system.id) }}">删除</a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+
+
+{% block content %}
+    <div class="modal fade" id="systemModal" tabindex="-1" role="dialog" aria-labelledby="systemModal"
+         aria-hidden="true">
+        <div class="modal-dialog" style="width: 500px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel" style="text-align: center">新增项目</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="" action="{{ url_for('system_new') }}" method="post">
+                        <div class="form-container">
+                            <div class="form-group">
+                                <input type="text" class="form-control" name='name' placeholder="项目名称">
+                            </div>
+                            <div class="form-group">
+                                <textarea type="text" class="form-control" rows="3" name='description'
+                                          placeholder="项目描述"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary btn-block">确认新增</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <!--
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                    -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function addSystem() {
+            var options = {
+                "backdrop": "static",
+                "show": true
+            };
+            $('#systemModal').modal(options);
+        }
+    </script>
+{% endblock %}

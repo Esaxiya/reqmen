@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    接口管理
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/api.css') }}">
+{% endblock %}
+
+
+<!--  -->
+{% block main %}
+    <div class="panel panel-primary" style="margin-bottom: 5px;">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{ system.name }}-接口管理</h3></div>
+
+        <div class="panel-body">
+            <button type="button" class="btn btn-primary" onclick="apiNew()">新增接口</button>
+            <a class="btn btn-primary" href="{{ url_for('case',sys_id=system.id) }}">用例管理</a>
+            <a class="btn btn-primary" href="{{ url_for('suite',sys_id=system.id) }}">套件管理</a>
+            <a class="btn btn-primary" href="{{ url_for('env',sys_id=system.id) }}">环境管理</a>
+        </div>
+
+    </div>
+    <div class="center-block table-responsive ">
+        <table class="table table-responsive table-condensed table-bordered text-nowrap container-fluid">
+            <thead>
+            <tr class="success">
+                <!-- <td class="col-md-1">ID</td> -->
+                <td class="col-md-1">项目名称</td>
+                <td class="col-md-1">接口名称</td>
+                <td class="col-md-1">接口方法</td>
+                <td class="col-md-1">接口路径</td>
+                <td class="col-md-1">内容类型</td>
+                <td class="col-md-2">接口主体</td>
+                <td class="col-md-1">接口标头</td>
+                <td class="col-md-1">创建时间</td>
+                <td class="col-md-1">创建人</td>
+                <td class="col-md-1">操作</td>
+            </tr>
+            </thead>
+            <tbody>
+            {% for api in apis %}
+                <tr>
+                    <!-- <td class="system-id"><a href="">{{ api.id }}</a></td> -->
+                    <td class="http_api">{{ api.system.name }}</td>
+                    <td class="http_api">{{ api.name }}</td>
+                    <td class="http_api">{{ api.method }}</td>
+                    <td class="http_api">{{ api.path }}</td>
+                    <td class="http_api">{{ api.contentType }}</td>
+                    <td class="http_api">{{ api.body }}</td>
+                    <td class="http_api">{{ api.header }}</td>
+                    <td class="http_api">{{ api.create_time }}</td>
+                    <td class="http_api">{{ api.user.username }}</td>
+                    <td class="http_api">
+                        <div class="edit-me"><a href="">编辑</a></div>
+                        <div class="remove-me">
+                            <a href="{{ url_for('api_delete',api_id=api.id) }}">删除</a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+
+{% block content %}
+    <div class="modal fade" id="apiModel" tabindex="-1" role="dialog" aria-labelledby="apiModel"
+         aria-hidden="true">
+        <div class="modal-dialog" style="width: 500px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel" style="text-align: center">新增项目</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="" action="{{ url_for('api_new') }}" method="post">
+                        <div class="form-container">
+                            <div class="form-group">
+                                <select class="form-control" name="system" required="required">
+                                    <option value="" selected="true" disabled="true">选择项目</option>
+                                    <option value="{{ system.id }}">{{ system.name }}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" name='name' required="required" placeholder="接口名称">
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control" name="method" required="required">
+                                    <option value="" selected="true" disabled="true">选择方法</option>
+                                    <option value="GET">GET</option>
+                                    <option value="POST">POST</option>
+                                    <option value="PUT">PUT</option>
+                                    <option value="HEAD">HEAD</option>
+                                    <option value="DELETE">DELETE</option>
+                                    <option value="OPTIONS">OPTIONS</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" name='path' placeholder="接口路径" required="required">
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control" name="contentType" required="required">
+                                    <option value="" selected="true" disabled="true">Content-Type</option>
+                                    <option value="application/xml">application/xml</option>
+                                    <option value="application/json">application/json</option>
+                                    <option value="multipart/form-data">multipart/form-data</option>
+                                    <option value="application/x-www-form-urlencoded">
+                                        application/x-www-form-urlencoded
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" rows="3" name='body' required="required"
+                                          placeholder='请求数据&#13;&#10;{"key":"value","key2":[1,2,3,4,5]}'></textarea>
+                            </div>
+                            <div class="form-group">
+                                 <textarea class="form-control" rows="3" name='header' required="required"
+                                           placeholder='请求标头 &#13;&#10; {"key":"value","key2":[1,2,3,4,5]}'></textarea>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary btn-block">确认新增</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <!--
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                    -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function apiNew() {
+            var options = {
+                "backdrop": "static",
+                "show": true
+            };
+            $('#apiModel').modal(options);
+        }
+    </script>
+{% endblock %}
+
+
+{% block modal %}
+
+
+{% endblock %}
+
+
+

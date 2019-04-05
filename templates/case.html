@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    用例管理
+{% endblock %}
+
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/case.css') }}">
+{% endblock %}
+
+
+{% block main %}
+    <div class="panel panel-primary" style="margin-bottom: 5px;">
+        <div class="panel-heading">
+            <h3 class="panel-title">测试用例管理</h3></div>
+        <div class="panel-body">
+            <button type="button" class="btn btn-primary" onclick="addCase()">新增用例</button>
+            <select class="btn btn-primary" style="height: 34px;" id="select_env">
+                {% for env in envs %}
+                    <option value="{{ env.id }}">{{ env.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="center-block table-responsive ">
+        <table class="table table-responsive table-condensed table-bordered text-nowrap container-fluid">
+            <thead>
+            <tr class="success">
+                <!-- <td class="col-md-1">ID</td> -->
+                <td class="col-md-1">用例名称</td>
+                <td class="col-md-1">项目名称</td>
+                <td class="col-md-1">接口名称</td>
+                <td class="col-md-2">接口主体</td>
+                <td class="col-md-1">创建时间</td>
+                <td class="col-md-1">创建人</td>
+                <td class="col-md-1">状态</td>
+                <td class="col-md-1">操作</td>
+            </tr>
+            </thead>
+            <tbody>
+            {% for case in cases %}
+                <tr>
+                    <!-- <td class="case-id"><a href="">{{ case.id }}</a></td> -->
+                    <td class="case-id"><a href="">{{ case.name }}</a></td>
+                    <td class="case-id"><a href="">{{ case.system.name }}</a></td>
+                    <td class="case-id"><a href="">{{ case.api_name }}</a></td>
+                    <td class="case-id"><a href="">{{ case.body }}</a></td>
+                    <td class="case-id"><a href="">{{ case.create_time }}</a></td>
+                    <td class="case-id"><a href="">{{ case.user.username }}</a></td>
+                    <td class="case-id">
+                        {% if case.status == 0 %}
+                            <span style="color: #9b9b9b">未执行</span>
+                        {% elif case.status == 1 %}
+                            <span style="color: chartreuse;">成功</span>
+                        {% else %}
+                            <span style="color: #ed4014">失败</span>
+                        {% endif %}
+                    </td>
+                    <td class="project-operate">
+                        <div class="edit-me"><a href="">编辑</a></div>
+                        <div class="remove-me">
+                            <a href="{{ url_for('case_delete',case_id=case.id) }}">删除</a>
+                        </div>
+                        <div class="run-me">
+                            <a href="javascript:;" onclick="run({{ case.id }})">执行</a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
+
+
+{% block content %}
+    <div class="modal fade" id="caseModel" tabindex="-1" role="dialog" aria-labelledby="caseModel"
+         aria-hidden="true">
+        <div class="modal-dialog" style="width: 500px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel" style="text-align: center">新增项目</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="" action="{{ url_for('case_new') }}" method="post">
+                    <div class="form-container">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name='name' placeholder="用例名称">
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" name="system">
+                                <option value="" selected="true" disabled="true">选择项目</option>
+                                    <option value="{{ system.id }}">{{ system.name }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" name="api_id">
+                                <option value="" selected="true" disabled="true">选择接口</option>
+                                {% for api in apis %}
+                                    <option value="{{ api.id }}">{{ api.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea type="text" class="form-control" rows="5" name='body'
+                                      placeholder="请求主体"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary btn-block">确认新增</button>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <!--
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                    -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block end %}
+    <script>
+        function addCase() {
+            var options = {
+                "backdrop": "static",
+                "show": true
+            };
+            $('#caseModel').modal(options);
+        }
+
+        function run(case_id) {
+            var env_id = $('#select_env').val();
+            $.post('/run/case/', data = {case_id: case_id, env_id: env_id}, function(){
+                 window.location.reload();
+            })
+        }
+    </script>
+{% endblock %}
