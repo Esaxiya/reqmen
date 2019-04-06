@@ -75,6 +75,14 @@ class Suite(db.Model):
     http suite 模型
     """
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(20), nullable=False)
+    status = db.Column(db.Integer, default=0,comment="执行状态:0未执行;1执行成功;2执行失败")
+    desp = db.Column(db.String(50))
+    sys_id = db.Column(db.Integer, db.ForeignKey('system.id'))
+    system = db.relationship('System', backref=db.backref('suites'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User', backref=db.backref('suites'))
+    create_time = db.Column(db.DateTime, default=datetime.now)
 
 
 class Env(db.Model):

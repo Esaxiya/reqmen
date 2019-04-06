@@ -1,1 +1,133 @@
 {% extends 'base.html' %}
+
+{% block title %}
+    用例管理
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/suite.css') }}">
+{% endblock %}
+
+{% block main %}
+    <div class="panel panel-primary" style="margin-bottom: 5px;">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{ system.name }}--测试套件管理</h3></div>
+        <div class="panel-body">
+            <button type="button" class="btn btn-primary" onclick="addSuite()">新增套件</button>
+            <select class="btn" style="background-color: #00cc66;height: 34px;" id="select_env">
+                {% for env in envs %}
+                    <option value="{{ env.id }}">{{ env.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="center-block table-responsive ">
+        <table class="table table-responsive table-condensed table-bordered text-nowrap container-fluid">
+            <thead>
+            <tr class="">
+                <!-- <td class="col-md-1">ID</td> -->
+                <td class="col-md-1">套件名称</td>
+                <td class="col-md-1">项目名称</td>
+                <td class="col-md-1">套件描述</td>
+                <td class="col-md-1">创建时间</td>
+                <td class="col-md-1">创建人</td>
+                <td class="col-md-1">状态</td>
+                <td class="col-md-1">操作</td>
+            </tr>
+            </thead>
+            <tbody>
+            {% for suite in suites %}
+                <tr>
+                    <td class="suite"><a href="#"> {{ suite.name }}</a></td>
+                    <td class="suite">{{ suite.system.name }}</td>
+                    <td class="suite">{{ suite.desp }}</td>
+                    <td class="suite">{{ suite.create_time }}</td>
+                    <td class="suite">{{ suite.user.username }}</td>
+                    <td class="suite">
+                        {% if suite.status == 0 %}
+                            <span style="color: #9b9b9b">未执行</span>
+                        {% elif suite.status == 1 %}
+                            <span style="color: chartreuse;">成功</span>
+                        {% else %}
+                            <span style="color: #ed4014">失败</span>
+                        {% endif %}
+                    </td>
+                    <td class="suite">
+                        <div class="edit-me"><a href="">编辑</a></div>
+                        <div class="remove-me">
+                            <a href="{{ url_for('suite_delete',suite_id=suite.id) }}">删除</a>
+                        </div>
+                        <div class="run-me">
+                            <a href="javascript:;" onclick="run({{ suite.id }})">执行</a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
+
+
+{% block content %}
+    <div class="modal fade" id="suiteModel" tabindex="-1" role="dialog" aria-labelledby="suiteModel"
+         aria-hidden="true">
+        <div class="modal-dialog" style="width: 500px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel" style="text-align: center">新增项目</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="" action="{{ url_for('suite_new') }}" method="post">
+                        <div class="form-container">
+                            <div class="form-group">
+                                <input type="text" class="form-control" name='name' placeholder="套件名称">
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control" name="system">
+                                    <option value="" selected="true" disabled="true">选择项目</option>
+                                    <option value="{{ system.id }} " selected="selected">{{ system.name }}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                            <textarea type="text" class="form-control" rows="5" name='desp'
+                                      placeholder="用例集合描述信息"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary btn-block">确认新增</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <!--
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                    -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block end %}
+    <script>
+        function addSuite() {
+            var options = {
+                "backdrop": "static",
+                "show": true
+            };
+            $('#suiteModel').modal(options);
+        }
+
+        function run(suite_id) {
+            var env_id = $('#select_env').val();
+            $.post('/run/suite/', data = {case_id: suite_id, env_id: env_id}, function () {
+                window.location.reload();
+            })
+        }
+    </script>
+{% endblock %}

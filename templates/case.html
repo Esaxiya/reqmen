@@ -16,7 +16,7 @@
             <h3 class="panel-title">{{ system.name }} -- 测试用例管理</h3></div>
         <div class="panel-body">
             <button type="button" class="btn btn-primary" onclick="addCase()">新增用例</button>
-            <select class="btn btn-primary" style="height: 34px;" id="select_env">
+            <select class="btn case_env" style="background-color: #00cc66;height: 34px;" id="select_env">
                 {% for env in envs %}
                     <option value="{{ env.id }}">{{ env.name }}</option>
                 {% endfor %}
@@ -26,7 +26,7 @@
     <div class="center-block table-responsive ">
         <table class="table table-responsive table-condensed table-bordered text-nowrap container-fluid">
             <thead>
-            <tr class="success">
+            <tr class="">
                 <!-- <td class="col-md-1">ID</td> -->
                 <td class="col-md-1">用例名称</td>
                 <td class="col-md-1">项目名称</td>
@@ -42,13 +42,13 @@
             {% for case in cases %}
                 <tr>
                     <!-- <td class="case-id"><a href="">{{ case.id }}</a></td> -->
-                    <td class="case-id"><a href="">{{ case.name }}</a></td>
-                    <td class="case-id"><a href="">{{ case.system.name }}</a></td>
-                    <td class="case-id"><a href="">{{ case.api_name }}</a></td>
-                    <td class="case-id"><a href="">{{ case.body }}</a></td>
-                    <td class="case-id"><a href="">{{ case.create_time }}</a></td>
-                    <td class="case-id"><a href="">{{ case.user.username }}</a></td>
-                    <td class="case-id">
+                    <td class="case"><a href="">{{ case.name }}</a></td>
+                    <td class="case"><a href="">{{ case.system.name }}</a></td>
+                    <td class="case"><a href="">{{ case.api_name }}</a></td>
+                    <td class="case"><a href="">{{ case.body }}</a></td>
+                    <td class="case"><a href="">{{ case.create_time }}</a></td>
+                    <td class="case"><a href="">{{ case.user.username }}</a></td>
+                    <td class="case">
                         {% if case.status == 0 %}
                             <span style="color: #9b9b9b">未执行</span>
                         {% elif case.status == 1 %}
@@ -57,7 +57,7 @@
                             <span style="color: #ed4014">失败</span>
                         {% endif %}
                     </td>
-                    <td class="project-operate">
+                    <td class="case">
                         <div class="edit-me"><a href="">编辑</a></div>
                         <div class="remove-me">
                             <a href="{{ url_for('case_delete',case_id=case.id) }}">删除</a>
@@ -93,7 +93,7 @@
                         <div class="form-group">
                             <select class="form-control" name="system">
                                 <option value="" selected="true" disabled="true">选择项目</option>
-                                    <option value="{{ system.id }}">{{ system.name }}</option>
+                                    <option value="{{ system.id }}" selected="selected">{{ system.name }}</option>
                             </select>
                         </div>
                         <div class="form-group">

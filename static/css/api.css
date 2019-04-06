@@ -40,3 +40,17 @@ thead {
     display: inline;
     cursor: pointer;
 }
+
+.b_case{
+     background-color: #5cadff;
+    color: #000;
+}
+
+.b_suite{
+    background-color: #2db7f5;
+    color: #fff;
+}
+.b_env{
+   background-color: #19be6b;
+    color: #fff;
+}

@@ -17,9 +17,9 @@
 
         <div class="panel-body">
             <button type="button" class="btn btn-primary" onclick="apiNew()">新增接口</button>
-            <a class="btn btn-primary" href="{{ url_for('case',sys_id=system.id) }}">用例管理</a>
-            <a class="btn btn-primary" href="{{ url_for('suite',sys_id=system.id) }}">套件管理</a>
-            <a class="btn btn-primary" href="{{ url_for('env',sys_id=system.id) }}">环境管理</a>
+            <a class="btn b_case" href="{{ url_for('case',sys_id=system.id) }}">用例管理</a>
+            <a class="btn b_suite" href="{{ url_for('suite',sys_id=system.id) }}">套件管理</a>
+            <a class="btn b_env" href="{{ url_for('env',sys_id=system.id) }}">环境管理</a>
         </div>
 
     </div>
@@ -82,11 +82,12 @@
                             <div class="form-group">
                                 <select class="form-control" name="system" required="required">
                                     <option value="" selected="true" disabled="true">选择项目</option>
-                                    <option value="{{ system.id }}">{{ system.name }}</option>
+                                    <option value="{{ system.id }}" selected="selected">{{ system.name }}</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" name='name' required="required" placeholder="接口名称">
+                                <input type="text" class="form-control" name='name' required="required"
+                                       placeholder="接口名称">
                             </div>
                             <div class="form-group">
                                 <select class="form-control" name="method" required="required">
@@ -100,7 +101,8 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" name='path' placeholder="接口路径" required="required">
+                                <input type="text" class="form-control" name='path' placeholder="接口路径"
+                                       required="required">
                             </div>
                             <div class="form-group">
                                 <select class="form-control" name="contentType" required="required">

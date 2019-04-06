@@ -30,6 +30,10 @@ from service.question_service import question_service
 from service.question_service import detail_service
 from service.question_service import add_comment_service
 from service.question_service import content_show
+from service.suite_service import suite_add
+from service.suite_service import suite_remove
+from service.suite_service import suite_show
+from service.suite_service import suite_update
 
 # 访问限制、必须登陆才可以、必须放到路由装饰器的下面、否则不起作用
 from config.decorator import required_login
@@ -206,12 +210,13 @@ def case_update():
 
 
 # ============================================
-@app.route("/suite", methods=['GET', 'POST'])
+@app.route("/suite/<sys_id>", methods=['GET', 'POST'])
 @required_login
-def suite():
+def suite(sys_id):
     """
     获取测试用例集列表
     """
+    return suite_show(sys_id)
 
 
 @app.route("/suite/new", methods=['GET', 'POST'])
@@ -220,13 +225,15 @@ def suite_new():
     """
     新增测试集
     """
+    return suite_add()
 
 
 @app.route("/suite/delete/<suite_id>", methods=['GET', 'POST'])
-def suite_delete():
+def suite_delete(suite_id):
     """
     删除测试集
     """
+    return suite_remove(suite_id)
 
 
 @app.route("/suite/update", methods=['GET', 'POST'])
@@ -235,6 +242,7 @@ def suite_update():
     """
     更新测试集
     """
+    return suite_update
 
 
 # ============================================
@@ -312,9 +320,6 @@ def add_comment():
 
 
 # ============================================
-
-
-
 
 
 if __name__ == '__main__':
