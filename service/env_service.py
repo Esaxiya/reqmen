@@ -13,7 +13,7 @@ from config.exts import db
 def env_show(sys_id):
     content = {
         "envs": Env.query.filter(Env.sys_id == sys_id).all(),
-        'sys_id': sys_id
+        "system": System.query.filter(System.id == sys_id).first(),
     }
     return render_template('env.html', **content)
 
@@ -35,5 +35,13 @@ def env_add():
     env.sys_id = sys_id
     env.system = System.query.filter(System.id == sys_id).first()
     db.session.add(env)
+    db.session.commit()
+    return redirect(url_for('env', sys_id=sys_id))
+
+
+def env_remove(env_id):
+    env = Env.query.filter(Env.id == env_id).first()
+    sys_id = env.sys_id
+    db.session.delete(env)
     db.session.commit()
     return redirect(url_for('env', sys_id=sys_id))

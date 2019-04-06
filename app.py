@@ -25,6 +25,7 @@ from service.case_service import case_add
 from service.case_service import case_remove
 from service.env_service import env_show
 from service.env_service import env_add
+from service.env_service import env_remove
 from service.question_service import question_service
 from service.question_service import detail_service
 from service.question_service import add_comment_service
@@ -197,6 +198,7 @@ def case_delete(case_id):
 
 
 @app.route("/case/update")
+@required_login
 def case_update():
     """
     更新指定项目的测试用例
@@ -205,6 +207,7 @@ def case_update():
 
 # ============================================
 @app.route("/suite", methods=['GET', 'POST'])
+@required_login
 def suite():
     """
     获取测试用例集列表
@@ -212,6 +215,7 @@ def suite():
 
 
 @app.route("/suite/new", methods=['GET', 'POST'])
+@required_login
 def suite_new():
     """
     新增测试集
@@ -226,6 +230,7 @@ def suite_delete():
 
 
 @app.route("/suite/update", methods=['GET', 'POST'])
+@required_login
 def suite_update():
     """
     更新测试集
@@ -234,6 +239,7 @@ def suite_update():
 
 # ============================================
 @app.route("/env/<sys_id>", methods=['GET'])
+@required_login
 def env(sys_id):
     """
     测试环境展示
@@ -242,6 +248,7 @@ def env(sys_id):
 
 
 @app.route("/env/new", methods=['POST'])
+@required_login
 def env_new():
     """
     测试环境添加
@@ -250,13 +257,16 @@ def env_new():
 
 
 @app.route("/env/delete/<env_id>", methods=['GET', 'POST'])
-def env_delete():
+@required_login
+def env_delete(env_id):
     """
     删除测试环境
     """
+    return env_remove(env_id)
 
 
 @app.route("/env/update", methods=['GET', 'POST'])
+@required_login
 def env_update():
     """
     更新测试环境
@@ -299,6 +309,12 @@ def add_comment():
     添加评论
     """
     return add_comment_service()
+
+
+# ============================================
+
+
+
 
 
 if __name__ == '__main__':
