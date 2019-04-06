@@ -7,9 +7,11 @@ from flask import request
 from config import config
 from config.exts import db
 
+# 导入模型中原型
 from config.models import System
 from config.models import User
 
+# 导入service层相关业务处理逻辑控制
 from service.base_service import login_service
 from service.base_service import register_service
 from service.system_service import system_show
@@ -23,8 +25,10 @@ from service.case_service import case_add
 from service.case_service import case_remove
 from service.env_service import env_show
 from service.env_service import env_add
-
-
+from service.question_service import question_service
+from service.question_service import detail_service
+from service.question_service import add_comment_service
+from service.question_service import content_show
 
 # 访问限制、必须登陆才可以、必须放到路由装饰器的下面、否则不起作用
 from config.decorator import required_login
@@ -200,28 +204,28 @@ def case_update():
 
 
 # ============================================
-@app.route("/suite",methods=['GET', 'POST'])
+@app.route("/suite", methods=['GET', 'POST'])
 def suite():
     """
     获取测试用例集列表
     """
 
 
-@app.route("/suite/new",methods=['GET', 'POST'])
+@app.route("/suite/new", methods=['GET', 'POST'])
 def suite_new():
     """
     新增测试集
     """
 
 
-@app.route("/suite/delete/<suite_id>",methods=['GET', 'POST'])
+@app.route("/suite/delete/<suite_id>", methods=['GET', 'POST'])
 def suite_delete():
     """
     删除测试集
     """
 
 
-@app.route("/suite/update",methods=['GET', 'POST'])
+@app.route("/suite/update", methods=['GET', 'POST'])
 def suite_update():
     """
     更新测试集
@@ -229,7 +233,7 @@ def suite_update():
 
 
 # ============================================
-@app.route("/env/<sys_id>",methods=['GET'])
+@app.route("/env/<sys_id>", methods=['GET'])
 def env(sys_id):
     """
     测试环境展示
@@ -237,7 +241,7 @@ def env(sys_id):
     return env_show(sys_id)
 
 
-@app.route("/env/new",methods=['POST'])
+@app.route("/env/new", methods=['POST'])
 def env_new():
     """
     测试环境添加
@@ -245,18 +249,56 @@ def env_new():
     return env_add()
 
 
-@app.route("/env/delete/<env_id>",methods=['GET', 'POST'])
+@app.route("/env/delete/<env_id>", methods=['GET', 'POST'])
 def env_delete():
     """
     删除测试环境
     """
 
 
-@app.route("/env/update",methods=['GET', 'POST'])
+@app.route("/env/update", methods=['GET', 'POST'])
 def env_update():
     """
     更新测试环境
     """
+
+
+# ============================================
+
+@app.route('/content', methods=['GET'])
+@required_login
+def content():
+    """
+    问答内容列表展示页面
+    """
+    return content_show()
+
+
+@app.route('/add/question', methods=['GET', 'POST'])
+@required_login
+def question_new():
+    """
+    问答添加页面
+    """
+    return question_service()
+
+
+@app.route('/detail/<question_id>')
+@required_login
+def detail(question_id):
+    """
+    问答详情页面
+    """
+    return detail_service(question_id)
+
+
+@app.route('/add/comment', methods=["POST"])
+@required_login
+def add_comment():
+    """
+    添加评论
+    """
+    return add_comment_service()
 
 
 if __name__ == '__main__':

@@ -99,6 +99,12 @@ class Question(db.Model):
     问答模型
     """
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    title = db.Column(db.String(100), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    # now() 服务器第一次运行的时间、now是每次创建模型的时间
+    create_time = db.Column(db.DateTime, default=datetime.now)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User', backref=db.backref('question'))
 
 
 class Comment(db.Model):
@@ -106,3 +112,10 @@ class Comment(db.Model):
     评论模型
     """
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    content = db.Column(db.Text, nullable=False)
+    # now() 服务器第一次运行的时间、now是每次创建模型的时间
+    create_time = db.Column(db.DateTime, default=datetime.now)
+    question_id = db.Column(db.Integer, db.ForeignKey('question.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    question = db.relationship('Question', backref=db.backref('comments'))
+    user = db.relationship('User', backref=db.backref('comments'))

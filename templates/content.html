@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}问答社区{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/content.css') }}">
+{% endblock %}
+
+
+{% block content %}
+    <div class="content">
+        <ul class="question-list-group question-div">
+            {% for question in questions %}
+                <li>
+                    <div class="wisdom-group">
+                        <img src="{{ url_for('static',filename='images/icon.png') }}" alt="" class="wisdom">
+                    </div>
+                    <div class="question-group">
+                        <p class="question-title"><a class="" href="/detail/{{ question.id }}">{{ question.title }}</a>
+                        </p>
+                        <p class="question-content">{{ question.content }}</p>
+                        <div class="question-info">
+                            <span class="question-user">{{ question.user.username }}</span>
+                            <span class="question-time">{{ question.create_time }}</span>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
+
+
+

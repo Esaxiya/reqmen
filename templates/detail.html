@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/detail.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="content">
+        <h3 class="page-title">{{ question_detail.title }}</h3>
+        <P class="question-info">
+            <span>作者: {{ question_detail.user.username }}</span>
+            <span>时间: {{ question_detail.create_time }}</span>
+        </P>
+        <hr>
+        <p class="question-content">
+            {{ question_detail.content }}
+        </p>
+        <hr>
+        <h5>评论({{ question_detail.comments|count }}):</h5>
+
+        <form action="{{ url_for('add_comment') }}" method="post">
+
+            <div class="form-group">
+                <textarea rows="4" name="content" class="form-control" placeholder="请输入精彩评论..."></textarea>
+            </div>
+            <div class="form-group">
+                <!-- 隐藏传递问答id编号 -->
+                <input type="hidden" name="question_id" value="{{ question_detail.id }}">
+            </div>
+            <!--
+             右对齐
+             float: right
+             text-align: right
+             -->
+            <div class="form-group" style="text-align: right">
+                <button class="btn btn-primary">确认提交</button>
+            </div>
+            <hr>
+        </form>
+
+        <div>
+            <ul class="comment-list">
+                {% for comment in question_detail.comments %}
+                    <li>
+                        <div class="user-info">
+                            <img class="icon" src="{{ url_for('static',filename='images/icon.png') }}">
+                            <span class="username">{{ comment.user.username }}</span>
+                            <span class="create_time">{{ comment.create_time }}</span>
+                        </div>
+                        <p class="comment-content"> {{ comment.content }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
