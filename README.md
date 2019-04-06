@@ -22,7 +22,7 @@ python3.6+、 flask、sqlalchemy、request、pymysql
 ![技术社区](https://github.com/Esaxiya/reqmen/blob/master/image/question.png)<br>
 ![新增](https://github.com/Esaxiya/reqmen/blob/master/image/add.png)<br>
 ![详情](https://github.com/Esaxiya/reqmen/blob/master/image/detail.png)<br>
-![评论](https://github.com/Esaxiya/reqmen/blob/master/image/comment.png)<br>
+![评论](https://github.com/Esaxiya/reqmen/blob/master/image/comments.png)<br>
 
 
 #
