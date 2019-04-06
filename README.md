@@ -8,4 +8,4 @@ python3.6+、 flask、sqlalchemy、request、pymysql
 测试套件详情、设计中、
 
 
-![新增接口](https://github.com/Esaxiya/reqmen/image/接口新增.png)<br>
+![新增接口](https://github.com/Esaxiya/reqmen/tree/master/image/接口新增.png)<br>
