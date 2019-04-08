@@ -15,6 +15,8 @@ python3.6+、 flask、sqlalchemy、request、pymysql
 ![接口新增](https://github.com/Esaxiya/reqmen/blob/master/image/%E6%8E%A5%E5%8F%A3%E6%96%B0%E5%A2%9E.png)<br>
 ![用例管理](https://github.com/Esaxiya/reqmen/blob/master/image/%E7%94%A8%E4%BE%8B%E7%AE%A1%E7%90%86.png)<br>
 ![用例新增](https://github.com/Esaxiya/reqmen/blob/master/image/%E7%94%A8%E4%BE%8B%E6%96%B0%E5%A2%9E.png)<br>
+![集合管理](https://github.com/Esaxiya/reqmen/blob/master/image/%E7%94%A8%E4%BE%8B%E9%9B%86%E5%90%88.png)<br>
+![集合新增](https://github.com/Esaxiya/reqmen/blob/master/image/%E7%94%A8%E4%BE%8B%E9%9B%86%E5%90%88%E7%AE%A1%E7%90%86.png)<br>
 ![测试环境](https://github.com/Esaxiya/reqmen/blob/master/image/%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86.png)<br>
 ![环境新增](https://github.com/Esaxiya/reqmen/blob/master/image/%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83.png)<br>
 ![注册](https://github.com/Esaxiya/reqmen/blob/master/image/register.png)<br>
